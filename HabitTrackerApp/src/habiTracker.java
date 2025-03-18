@@ -41,40 +41,6 @@ public class habiTracker {
         displayPanel.setOpaque(true);
         panel.add(displayPanel, BorderLayout.CENTER);
 
-        // ActionListener for Add Habit Button
-        addHabitButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-            	
-                String habitText = addHabitField.getText().trim();
-                if (!habitText.isEmpty()) {
-                    JPanel habitPanel = new JPanel(new FlowLayout(FlowLayout.LEFT, 10, 0)); 
-                    habitPanel.setBorder(BorderFactory.createLineBorder(Color.BLACK, 1));
-                    habitPanel.setBackground(new Color(200, 200, 200)); 
-                    JLabel habitLabel = new JLabel(habitText);
-                    habitPanel.add(habitLabel);
-                    habitPanel.setMaximumSize(new Dimension(Integer.MAX_VALUE, 25)); 
-                    displayPanel.add(habitPanel);
-
-                    // Refresh the display panel
-                    displayPanel.revalidate();
-                    displayPanel.repaint();
-
-                    addHabitField.setText(""); 
-                }
-            }
-        });
-
-        // ActionListener for Reset Progress Button
-        resetButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                
-                displayPanel.removeAll();
-                displayPanel.revalidate();
-                displayPanel.repaint();
-            }
-        });
 
         frame.add(panel);
         frame.setVisible(true);
