@@ -34,7 +34,7 @@ public class habiTracker {
         panel.add(displayPanel, BorderLayout.CENTER);
         
         // Button Panel (Mark as Completed, Reset Progress)
-        JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.CENTER,20,5));
+        JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.CENTER,10,5));
         JButton markCompletedButton = new JButton("Mark as Completed");
         JButton resetButton = new JButton("Reset Progress");
         
