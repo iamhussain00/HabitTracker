@@ -1,6 +1,7 @@
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
+import java.awt.Font;
 
 import javax.swing.BorderFactory;
 import javax.swing.JLabel;
@@ -21,6 +22,7 @@ public class Habit {
         habitPanel.setBorder(BorderFactory.createLineBorder(Color.BLACK, 1));
         habitPanel.setBackground(new Color(200, 200, 200));
         JLabel habitLabel = new JLabel((index + 1) + ". " + habitName + " (Streak: " + 0 + " days)");
+        habitLabel.setFont(new Font("Arial",Font.PLAIN,15));
         habitPanel.add(habitLabel);
         habitPanel.setMaximumSize(new Dimension(Integer.MAX_VALUE, 25));
     }
