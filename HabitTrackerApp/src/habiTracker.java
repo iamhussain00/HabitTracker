@@ -1,22 +1,15 @@
-import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-
 import javax.swing.*;
-
-
+import java.awt.*;
+import java.awt.event.*;
+import java.util.ArrayList;
 
 public class habiTracker {
-	static int cur = 0;
     static int selectedIndex = -1;
     static JPanel selectedPanel = null;
-     
 
     public static void main(String[] args) {
         JFrame frame = new JFrame("Habit Tracker");
-        frame.setSize(400, 400);
+        frame.setSize(450, 400);
         frame.setLayout(new BorderLayout());
         frame.setLocationRelativeTo(null);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -25,9 +18,9 @@ public class habiTracker {
         panel.setLayout(new BorderLayout());
         panel.setBackground(Color.black);
 
-        // Add Habit Panel (Input & Button)
-        JPanel addHabitPanel = new JPanel(new FlowLayout());
-        JTextField addHabitField = new JTextField(15);
+        JPanel addHabitPanel = new JPanel(new FlowLayout(FlowLayout.CENTER,10,8));
+        addHabitPanel.setPreferredSize(new Dimension(450,40));
+        JTextField addHabitField = new JTextField(20);
         JButton addHabitButton = new JButton("Add New Habit");
         addHabitButton.setBackground(new Color(200, 250, 200));
         addHabitPanel.add(addHabitField);
@@ -35,7 +28,6 @@ public class habiTracker {
         addHabitPanel.setBackground(new Color(100, 150, 130));
         panel.add(addHabitPanel, BorderLayout.NORTH);
 
-        
         JPanel displayPanel = new JPanel();
         displayPanel.setLayout(new BoxLayout(displayPanel, BoxLayout.Y_AXIS));
         displayPanel.setBackground(Color.BLACK);
@@ -43,12 +35,11 @@ public class habiTracker {
 
         JScrollPane scrollPane = new JScrollPane(displayPanel);
         scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
-        panel.add(scrollPane, BorderLayout.CENTER); 
+        panel.add(scrollPane, BorderLayout.CENTER);
 
-        // Button Panel (Mark Completed, Reset Progress)
         JPanel buttonPanel = new JPanel(new FlowLayout());
         JButton markCompletedButton = new JButton("Mark as Completed");
-        JButton resetButton = new JButton("Reset 🤓");
+        JButton resetButton = new JButton("Reset");
         JButton beginButton = new JButton("Start Again");
 
         buttonPanel.add(markCompletedButton);
@@ -57,92 +48,80 @@ public class habiTracker {
         buttonPanel.setBackground(new Color(150, 200, 255));
         panel.add(buttonPanel, BorderLayout.SOUTH);
 
-        Habit[] habitArray = new Habit[100];
+        ArrayList<Habit> habitList = new ArrayList<>();
 
-        addHabitButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                String text = addHabitField.getText().trim();
-                if (!text.isEmpty()) {
-                    habitArray[cur] = new Habit(cur, text, 0);
-                    displayPanel.add(habitArray[cur].habitPanel);
+        addHabitButton.addActionListener(e -> {
+            String text = addHabitField.getText().trim();
+            if (!text.isEmpty()) {
+                int index = habitList.size();
+                Habit habit = new Habit(index, text, 0);
+                habitList.add(habit);
+                displayPanel.add(habit.habitPanel);
 
-                   
-                    final int index = cur;
-                    habitArray[index].habitPanel.addMouseListener(new MouseAdapter() {
-                        @Override
-                        public void mouseClicked(MouseEvent e) {
-                            if (selectedPanel != null) {
-                                selectedPanel.setBackground(new Color(200, 200, 200)); 
-                            }
-                            habitArray[index].habitPanel.setBackground(new Color(150, 200, 250)); 
-                            selectedPanel = habitArray[index].habitPanel;
-                            selectedIndex = index;
+                habit.habitPanel.addMouseListener(new MouseAdapter() {
+                    @Override
+                    public void mouseClicked(MouseEvent e) {
+                        if (selectedPanel != null) {
+                            selectedPanel.setBackground(new Color(200, 200, 200));
                         }
-                    });
- 
-                    displayPanel.setPreferredSize(new Dimension(350, Math.max(250, cur * 25))); 
-                    displayPanel.revalidate();
-                    displayPanel.repaint();
+                        habit.habitPanel.setBackground(new Color(150, 200, 250));
+                        selectedPanel = habit.habitPanel;
+                        selectedIndex = habitList.indexOf(habit);
+                    }
+                });
 
-                    addHabitField.setText(""); 
-                    cur++;  
-                }
-            }
-        });
-
-        markCompletedButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                if (selectedIndex != -1 && selectedPanel != null && habitArray[selectedIndex] != null) {
-                    habitArray[selectedIndex].increaseDays();
-                    
-                    JLabel label = (JLabel) selectedPanel.getComponent(0);
-                    label.setText((selectedIndex + 1) + ". " + habitArray[selectedIndex].habitName + " (Streak: " + habitArray[selectedIndex].days + " days)");
-
-                    selectedPanel.setBackground(new Color(200, 200, 200));
-                    selectedPanel = null;
-                    selectedIndex = -1;
-
-                    displayPanel.revalidate();
-                    displayPanel.repaint();
-                }
-            }
-        });
-
-        resetButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                displayPanel.removeAll();
+                displayPanel.setPreferredSize(new Dimension(350, Math.max(250, habitList.size() * 30)));
                 displayPanel.revalidate();
                 displayPanel.repaint();
-                cur = 0;  
-                selectedPanel = null;
-                selectedIndex = -1;
-                displayPanel.setPreferredSize(new Dimension(350, 250)); 
+                addHabitField.setText("");
             }
         });
-        
-        beginButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-            	if (selectedIndex != -1 && selectedPanel != null && habitArray[selectedIndex] != null) {
-            		habitArray[selectedIndex].days = 0;
-                    
-                    JLabel label = (JLabel) selectedPanel.getComponent(0);
-                    label.setText((selectedIndex + 1) + ". " + habitArray[selectedIndex].habitName + " (Streak: " + habitArray[selectedIndex].days + " days)");
-                    
-                    selectedPanel.setBackground(new Color(200, 200, 200));
-                    selectedPanel = null;
-                    selectedIndex = -1;
 
-                    displayPanel.revalidate();
-                    displayPanel.repaint();
-                }
+        markCompletedButton.addActionListener(e -> {
+            if (selectedIndex != -1 && selectedPanel != null) {
+                Habit habit = habitList.get(selectedIndex);
+                habit.increaseDays();
+
+                JLabel label = (JLabel) selectedPanel.getComponent(0);
+                label.setText((selectedIndex + 1) + ". " + habit.habitName + " (Streak: " + habit.days + " days)");
+
+                selectedPanel.setBackground(new Color(200, 200, 200));
+                selectedPanel = null;
+                selectedIndex = -1;
+
+                displayPanel.revalidate();
+                displayPanel.repaint();
             }
+        });
+
+        beginButton.addActionListener(e -> {
+            if (selectedIndex != -1 && selectedPanel != null) {
+                Habit habit = habitList.get(selectedIndex);
+                habit.days = 0;
+
+                JLabel label = (JLabel) selectedPanel.getComponent(0);
+                label.setText((selectedIndex + 1) + ". " + habit.habitName + " (Streak: 0 days)");
+
+                selectedPanel.setBackground(new Color(200, 200, 200));
+                selectedPanel = null;
+                selectedIndex = -1;
+
+                displayPanel.revalidate();
+                displayPanel.repaint();
+            }
+        });
+
+        resetButton.addActionListener(e -> {
+            habitList.clear();
+            displayPanel.removeAll();
+            displayPanel.setPreferredSize(new Dimension(350, 250));
+            selectedPanel = null;
+            selectedIndex = -1;
+            displayPanel.revalidate();
+            displayPanel.repaint();
         });
 
         frame.add(panel);
         frame.setVisible(true);
     }
-}        
+}
