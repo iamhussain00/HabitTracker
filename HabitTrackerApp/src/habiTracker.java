@@ -21,6 +21,7 @@ public class habiTracker {
         JPanel addHabitPanel = new JPanel(new FlowLayout(FlowLayout.CENTER,10,8));
         addHabitPanel.setPreferredSize(new Dimension(450,40));
         JTextField addHabitField = new JTextField(20);
+        addHabitField.setFont(new Font("Arial", Font.PLAIN, 14));  
         JButton addHabitButton = new JButton("Add New Habit");
         addHabitButton.setBackground(new Color(200, 250, 200));
         addHabitPanel.add(addHabitField);
@@ -73,6 +74,8 @@ public class habiTracker {
                 displayPanel.setPreferredSize(new Dimension(350, Math.max(250, habitList.size() * 30)));
                 displayPanel.revalidate();
                 displayPanel.repaint();
+                
+                addHabitField.setFont(new Font("Arial", Font.PLAIN, 14)); // Set font size to 14 or match label font size
                 addHabitField.setText("");
             }
         });
