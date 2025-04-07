@@ -20,7 +20,7 @@ public class Habit {
         habitPanel = new JPanel(new FlowLayout(FlowLayout.LEFT, 10, 0));
         habitPanel.setBorder(BorderFactory.createLineBorder(Color.BLACK, 1));
         habitPanel.setBackground(new Color(200, 200, 200));
-        JLabel habitLabel = new JLabel((index + 1) + ". " + habitName + " (Streak: " + 0 + "days)");
+        JLabel habitLabel = new JLabel((index + 1) + ". " + habitName + " (Streak: " + 0 + " days)");
         habitPanel.add(habitLabel);
         habitPanel.setMaximumSize(new Dimension(Integer.MAX_VALUE, 25));
     }
