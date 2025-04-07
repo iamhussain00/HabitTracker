@@ -98,7 +98,7 @@ public class habiTracker {
                     habitArray[selectedIndex].increaseDays();
                     
                     JLabel label = (JLabel) selectedPanel.getComponent(0);
-                    label.setText((selectedIndex + 1) + ". " + habitArray[selectedIndex].habitName + " (Streak: " + habitArray[selectedIndex].days + "days)");
+                    label.setText((selectedIndex + 1) + ". " + habitArray[selectedIndex].habitName + " (Streak: " + habitArray[selectedIndex].days + " days)");
 
                     selectedPanel.setBackground(new Color(200, 200, 200));
                     selectedPanel = null;
@@ -130,7 +130,7 @@ public class habiTracker {
             		habitArray[selectedIndex].days = 0;
                     
                     JLabel label = (JLabel) selectedPanel.getComponent(0);
-                    label.setText((selectedIndex + 1) + ". " + habitArray[selectedIndex].habitName + " (Streak: " + habitArray[selectedIndex].days + "days)");
+                    label.setText((selectedIndex + 1) + ". " + habitArray[selectedIndex].habitName + " (Streak: " + habitArray[selectedIndex].days + " days)");
                     
                     selectedPanel.setBackground(new Color(200, 200, 200));
                     selectedPanel = null;
