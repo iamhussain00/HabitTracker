@@ -42,10 +42,14 @@ public class habiTracker {
         JButton markCompletedButton = new JButton("Mark as Completed");
         JButton resetButton = new JButton("Reset");
         JButton beginButton = new JButton("Start Again");
+        JButton deleteButton = new JButton("Delete ");
 
         buttonPanel.add(markCompletedButton);
         buttonPanel.add(beginButton);
-        buttonPanel.add(resetButton);
+        buttonPanel.add(deleteButton);
+        buttonPanel.add(resetButton); 
+       
+
         buttonPanel.setBackground(new Color(150, 200, 255));
         panel.add(buttonPanel, BorderLayout.SOUTH);
 
@@ -113,6 +117,32 @@ public class habiTracker {
                 displayPanel.repaint();
             }
         });
+        
+        deleteButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if (selectedIndex != -1 && selectedPanel != null) {
+                    
+                    displayPanel.remove(selectedPanel);
+
+                    habitList.remove(selectedIndex);
+
+                    for (int i = 0; i < habitList.size(); i++) {
+                        Habit h = habitList.get(i);
+                        h.index = i;
+                        JLabel label = (JLabel) h.habitPanel.getComponent(0);
+                        label.setText((i + 1) + ". " + h.habitName + " (Streak: " + h.days + " days)");
+                    }
+
+                    selectedPanel = null;
+                    selectedIndex = -1;
+
+                    displayPanel.revalidate();
+                    displayPanel.repaint();
+                }
+            }
+        });
+
 
         resetButton.addActionListener(e -> {
             habitList.clear();
