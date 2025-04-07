@@ -67,7 +67,7 @@ public class habiTracker {
                         }
                         habit.habitPanel.setBackground(new Color(150, 200, 250));
                         selectedPanel = habit.habitPanel;
-                        selectedIndex = habitList.indexOf(habit);
+                        selectedIndex = habit.index;
                     }
                 });
 
